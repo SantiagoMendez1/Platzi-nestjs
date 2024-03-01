@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppController = void 0;
 const common_1 = require("@nestjs/common");
@@ -17,7 +20,19 @@ let AppController = class AppController {
         this.appService = appService;
     }
     getHello() {
-        return this.appService.getHello();
+        return 'hello world';
+    }
+    getProducts(limit = 100, offset = 100, brand) {
+        return `products, limit: ${limit} offset: ${offset} brand: ${brand}`;
+    }
+    getProductFilter() {
+        return `filtro aplicado al filtro`;
+    }
+    getProduct(id) {
+        return `product ${id}`;
+    }
+    getCategory(id, idproduct) {
+        return `product ${idproduct} and category ${id}`;
     }
 };
 exports.AppController = AppController;
@@ -27,6 +42,36 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", String)
 ], AppController.prototype, "getHello", null);
+__decorate([
+    (0, common_1.Get)('products'),
+    __param(0, (0, common_1.Query)('limit')),
+    __param(1, (0, common_1.Query)('offset')),
+    __param(2, (0, common_1.Query)('brand')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, String]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "getProducts", null);
+__decorate([
+    (0, common_1.Get)('products/filter'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "getProductFilter", null);
+__decorate([
+    (0, common_1.Get)('products/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "getProduct", null);
+__decorate([
+    (0, common_1.Get)('categories/:id/products/:idproduct'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Param)('idproduct')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], AppController.prototype, "getCategory", null);
 exports.AppController = AppController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [app_service_1.AppService])
