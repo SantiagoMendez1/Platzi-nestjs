@@ -12,4 +12,9 @@ export declare class ProductsController {
         message: string;
         payload: any;
     };
+    update(id: String, payload: any): {
+        id: String;
+        payload: any;
+    };
+    delete(id: String): String;
 }

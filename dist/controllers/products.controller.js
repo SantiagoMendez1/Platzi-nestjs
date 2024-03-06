@@ -17,7 +17,7 @@ const common_1 = require("@nestjs/common");
 let ProductsController = class ProductsController {
     getProducts(limit = 100, offset = 100, brand) {
         return {
-            message: `products, limit: ${limit} offset: ${offset} brand: ${brand}`
+            message: `products, limit: ${limit} offset: ${offset} brand: ${brand}`,
         };
     }
     getProductFilter() {
@@ -35,6 +35,15 @@ let ProductsController = class ProductsController {
             message: 'accion de crear',
             payload,
         };
+    }
+    update(id, payload) {
+        return {
+            id,
+            payload,
+        };
+    }
+    delete(id) {
+        return id;
     }
 };
 exports.ProductsController = ProductsController;
@@ -67,6 +76,21 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "create", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", void 0)
+], ProductsController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ProductsController.prototype, "delete", null);
 exports.ProductsController = ProductsController = __decorate([
     (0, common_1.Controller)('products')
 ], ProductsController);
