@@ -28,14 +28,10 @@ let ProductsService = class ProductsService {
     findOne(id) {
         const product = this.products.find((item) => item.id == id);
         console.log(id);
-        if (product) {
-            return product;
+        if (!product) {
+            throw new common_1.NotFoundException(`product with id ${id} not found`);
         }
-        else {
-            return {
-                message: 'product not found'
-            };
-        }
+        return product;
     }
     create(payload) {
         this.conter++;
@@ -47,35 +43,28 @@ let ProductsService = class ProductsService {
         return newProduct;
     }
     update(id, payload) {
-        let product_found = this.products.findIndex((item) => item.id == id);
-        if (product_found) {
+        const product_found = this.products.findIndex((item) => item.id == id);
+        if (product_found === -1) {
+            return new common_1.NotFoundException(`product with id ${id} not found`);
+        }
+        else {
             this.products[product_found] = {
                 ...this.findOne(id),
                 ...payload,
             };
             return {
-                message: 'product updated',
-                product: this.products[product_found],
-            };
-        }
-        else {
-            return {
-                message: 'product not found',
+                message: true,
             };
         }
     }
     delete(id) {
-        let product_found = this.products.findIndex((item) => item.id == id);
-        if (product_found) {
-            this.products.splice(product_found, 1);
-            return {
-                message: 'product deleted',
-            };
+        const product_found = this.products.findIndex((item) => item.id == id);
+        if (product_found === -1) {
+            return new common_1.NotFoundException(`product with id ${id} not found`);
         }
         else {
-            return {
-                message: 'product not found',
-            };
+            this.products.splice(product_found, 1);
+            return true;
         }
     }
 };

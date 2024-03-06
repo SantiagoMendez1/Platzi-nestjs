@@ -6,18 +6,10 @@ export declare class ProductsController {
     getProductFilter(): {
         message: string;
     };
-    getProduct(id: number): import("../entities/product.entity").Product | {
-        message: string;
-    };
+    getProduct(id: number): import("../entities/product.entity").Product;
     create(payload: any): any;
-    update(id: number, payload: any): {
-        message: string;
-        product: import("../entities/product.entity").Product;
-    } | {
-        message: string;
-        product?: undefined;
+    update(id: number, payload: any): import("@nestjs/common").NotFoundException | {
+        message: boolean;
     };
-    delete(id: number): {
-        message: string;
-    };
+    delete(id: number): true | import("@nestjs/common").NotFoundException;
 }

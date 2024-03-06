@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from 'src/entities/product.entity';
 
 @Injectable()
@@ -20,18 +20,13 @@ export class ProductsService {
     }
 
     findOne(id: number) {
-        const product = this.products.find((item) => item.id == id)
+        const product = this.products.find((item) => item.id == id);
         console.log(id);
-        
-        if (product){
-            return product;
+
+        if (!product) {
+            throw new NotFoundException(`product with id ${id} not found`);
         }
-        else{
-            return {
-                message: 'product not found'
-            }
-        }
-        
+        return product;
     }
 
     create(payload: any) {
@@ -45,34 +40,27 @@ export class ProductsService {
     }
 
     update(id: number, payload: any) {
-        let product_found = this.products.findIndex((item) => item.id == id);
-        if (product_found) {
+        const product_found = this.products.findIndex((item) => item.id == id);
+        if (product_found === -1) {
+            return new NotFoundException(`product with id ${id} not found`);
+        } else {
             this.products[product_found] = {
                 ...this.findOne(id),
                 ...payload,
             };
             return {
-                message: 'product updated',
-                product: this.products[product_found],
-            };
-        } else {
-            return {
-                message: 'product not found',
+                message: true,
             };
         }
     }
 
     delete(id: number) {
-        let product_found = this.products.findIndex((item) => item.id == id);
-        if (product_found) {
-            this.products.splice(product_found, 1);
-            return {
-                message: 'product deleted',
-            };
+        const product_found = this.products.findIndex((item) => item.id == id);
+        if (product_found === -1) {
+            return new NotFoundException(`product with id ${id} not found`)
         } else {
-            return {
-                message: 'product not found',
-            };
+            this.products.splice(product_found, 1);
+            return true
         }
     }
 }
