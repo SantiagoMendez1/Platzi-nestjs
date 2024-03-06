@@ -20,7 +20,18 @@ export class ProductsService {
     }
 
     findOne(id: number) {
-        return this.products.find((item) => item.id === id);
+        const product = this.products.find((item) => item.id == id)
+        console.log(id);
+        
+        if (product){
+            return product;
+        }
+        else{
+            return {
+                message: 'product not found'
+            }
+        }
+        
     }
 
     create(payload: any) {
@@ -34,9 +45,12 @@ export class ProductsService {
     }
 
     update(id: number, payload: any) {
-        let product_found = this.products.findIndex((item) => item.id === id);
+        let product_found = this.products.findIndex((item) => item.id == id);
         if (product_found) {
-            this.products[product_found] = payload;
+            this.products[product_found] = {
+                ...this.findOne(id),
+                ...payload,
+            };
             return {
                 message: 'product updated',
                 product: this.products[product_found],
@@ -49,7 +63,7 @@ export class ProductsService {
     }
 
     delete(id: number) {
-        let product_found = this.products.findIndex((item) => item.id === id);
+        let product_found = this.products.findIndex((item) => item.id == id);
         if (product_found) {
             this.products.splice(product_found, 1);
             return {

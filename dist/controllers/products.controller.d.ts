@@ -1,20 +1,23 @@
+import { ProductsService } from 'src/services/products.service';
 export declare class ProductsController {
-    getProducts(limit: number, offset: number, brand: string): {
-        message: string;
-    };
+    private productsService;
+    constructor(productsService: ProductsService);
+    getProducts(limit: number, offset: number, brand: string): import("../entities/product.entity").Product[];
     getProductFilter(): {
         message: string;
     };
-    getProduct(id: string): {
+    getProduct(id: number): import("../entities/product.entity").Product | {
         message: string;
     };
-    create(payload: any): {
+    create(payload: any): any;
+    update(id: number, payload: any): {
         message: string;
-        payload: any;
+        product: import("../entities/product.entity").Product;
+    } | {
+        message: string;
+        product?: undefined;
     };
-    update(id: String, payload: any): {
-        id: String;
-        payload: any;
+    delete(id: number): {
+        message: string;
     };
-    delete(id: String): String;
 }
