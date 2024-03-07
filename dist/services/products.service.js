@@ -34,6 +34,7 @@ let ProductsService = class ProductsService {
         return product;
     }
     create(payload) {
+        console.log(payload);
         this.conter++;
         const newProduct = {
             id: this.conter,
